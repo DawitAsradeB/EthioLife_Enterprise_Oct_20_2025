@@ -11,9 +11,14 @@ permissions:
   contents: write
   pull-requests: write
 
+concurrency:
+  group: release-drafter-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   update_release_draft:
     if: github.event_name == 'push' || (github.event.pull_request.merged == true)
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

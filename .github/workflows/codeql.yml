@@ -3,8 +3,14 @@ name: "CodeQL"
 on:
   push:
     branches: [ "**" ]
+    paths-ignore:
+      - '**/*.md'
+      - '.github/ISSUE_TEMPLATE/**'
   pull_request:
     branches: [ "**" ]
+    paths-ignore:
+      - '**/*.md'
+      - '.github/ISSUE_TEMPLATE/**'
   schedule:
     - cron: '0 4 * * 1'
 
@@ -13,9 +19,14 @@ permissions:
   security-events: write
   actions: read
 
+concurrency:
+  group: codeql-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   analyze:
     name: Analyze
+    timeout-minutes: 60
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false

@@ -6,8 +6,13 @@ on:
     branches: [ "**" ]
   workflow_dispatch:
 
+concurrency:
+  group: sbom-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   syft:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

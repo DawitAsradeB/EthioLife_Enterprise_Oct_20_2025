@@ -11,8 +11,13 @@ permissions:
   contents: read
   security-events: write
 
+concurrency:
+  group: semgrep-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   semgrep:
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

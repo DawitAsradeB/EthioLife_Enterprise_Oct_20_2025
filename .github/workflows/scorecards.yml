@@ -13,8 +13,13 @@ permissions:
   id-token: write
   security-events: write
 
+concurrency:
+  group: scorecards-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   analysis:
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

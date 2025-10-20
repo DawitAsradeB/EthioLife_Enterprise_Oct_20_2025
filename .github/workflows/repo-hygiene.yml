@@ -11,8 +11,13 @@ permissions:
   contents: read
   pull-requests: read
 
+concurrency:
+  group: repo-hygiene-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint:
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -22,6 +27,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            **/package-lock.json
+            **/pnpm-lock.yaml
+            **/yarn.lock
 
       - name: Install markdownlint-cli2
         run: npm i -g markdownlint-cli2
@@ -33,6 +44,10 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: |
+            **/requirements*.txt
+            **/pyproject.toml
 
       - name: Install codespell
         run: python -m pip install --upgrade pip && pip install codespell
@@ -54,3 +69,54 @@ jobs:
         uses: ibiqlik/action-yamllint@v4
         with:
           config_file: .yamllint.yml
+
+      # Language-aware linters (conditional)
+      - name: Set up Node for ESLint
+        if: ${{ hashFiles('**/package.json') != '' && hashFiles('**/.eslintrc*', '**/eslint.config.*') != '' }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            **/package-lock.json
+            **/pnpm-lock.yaml
+            **/yarn.lock
+
+      - name: Install dependencies for ESLint
+        if: ${{ hashFiles('**/package.json') != '' && hashFiles('**/.eslintrc*', '**/eslint.config.*') != '' }}
+        run: |
+          npm --version || true
+          if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ] || [ -f pnpm-lock.yaml ] || [ -f yarn.lock ]; then npm ci || npm i; else npm i; fi
+
+      - name: Run ESLint
+        if: ${{ hashFiles('**/package.json') != '' && hashFiles('**/.eslintrc*', '**/eslint.config.*') != '' }}
+        run: npx --yes eslint@latest . --ext .js,.jsx,.ts,.tsx || true
+
+      - name: Set up Python for flake8
+        if: ${{ hashFiles('**/*.py', '**/.flake8', '**/setup.cfg', '**/tox.ini', '**/pyproject.toml') != '' }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: |
+            **/requirements*.txt
+            **/pyproject.toml
+
+      - name: Install flake8
+        if: ${{ hashFiles('**/*.py', '**/.flake8', '**/setup.cfg', '**/tox.ini', '**/pyproject.toml') != '' }}
+        run: pip install flake8
+
+      - name: Run flake8
+        if: ${{ hashFiles('**/*.py', '**/.flake8', '**/setup.cfg', '**/tox.ini', '**/pyproject.toml') != '' }}
+        run: flake8 || true
+
+      - name: Install golangci-lint
+        if: ${{ hashFiles('**/go.mod') != '' }}
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
+
+      - name: Run golangci-lint
+        if: ${{ hashFiles('**/go.mod') != '' }}
+        run: golangci-lint run || true
