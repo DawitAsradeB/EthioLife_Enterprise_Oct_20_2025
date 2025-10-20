@@ -1,0 +1,9 @@
+[allowlist]
+# Ignore env var patterns like ${{ secrets.SOMETHING }} in workflow files
+regexTarget = "line"
+regexes = [
+  "\$\{\{\s*secrets\.[A-Za-z0-9_]+\s*\}\}",
+]
+files = [
+  ".github/workflows/.*"
+]

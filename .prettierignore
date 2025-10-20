@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+build/
+dist/
+coverage/
+*.min.*
+
+# Environment
+.env
+.venv/
+venv/
+
+# Caches
+.cache/
+.next/
+.nuxt/
+.svelte-kit/
+.angular/
+
+tmp/
+.temp/
