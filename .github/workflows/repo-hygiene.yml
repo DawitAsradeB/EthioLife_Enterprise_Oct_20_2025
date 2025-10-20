@@ -35,10 +35,10 @@ jobs:
           python-version: '3.12'
 
       - name: Install codespell
-        run: pipx install codespell
+        run: python -m pip install --upgrade pip && pip install codespell
 
       - name: Run codespell
-        run: codespell --ignore-words-list=crate,inout,datas,ans,ser --skip=.git,./node_modules,./dist,./build,./.venv,./venv
+        run: codespell
 
       - name: Link checker (lychee)
         uses: lycheeverse/lychee-action@v2
