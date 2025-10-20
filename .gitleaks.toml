@@ -1,0 +1,21 @@
+title = "Gitleaks Configuration"
+
+[extend]
+# Extend your rules by rule-id from the upstream default config
+useDefault = true
+
+[allowlist]
+# Common false positives and test files
+files = [
+  ".*test.*",
+  "LICENSE",
+  "NOTICE",
+  "README.md"
+]
+
+# Allow standard dummy credentials often used in docs
+regexTarget = "line"
+regexes = [
+  "example_key_[A-Za-z0-9]{8,}",
+  "dummy_secret_[A-Za-z0-9]{8,}"
+]

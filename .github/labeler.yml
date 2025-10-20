@@ -1,0 +1,13 @@
+# Autolabel PRs based on changed files
+core:
+  - changed-files:
+      - any-glob-to-any-file: ["src/**"]
+docs:
+  - changed-files:
+      - any-glob-to-any-file: ["**/*.md", "docs/**"]
+chore:
+  - changed-files:
+      - any-glob-to-any-file: [".github/**", "**/*.yml", "**/*.yaml"]
+ci:
+  - changed-files:
+      - any-glob-to-any-file: [".github/workflows/**"]
