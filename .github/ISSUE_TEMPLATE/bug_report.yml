@@ -1,0 +1,70 @@
+name: "Bug report"
+description: "Report a problem so we can fix it"
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: Short description of the bug
+      placeholder: Crash when clicking Save on Settings
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Provide clear steps to reproduce the problem
+      placeholder: |
+        1. Go to Settings
+        2. Click Save
+        3. Observe error
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      placeholder: It should save without errors
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      placeholder: The app shows a 500 error
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version/commit
+      placeholder: v1.2.3 or abcdef1
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      options:
+        - Production
+        - Staging
+        - Development
+        - Local
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs/errors
+      description: Paste relevant log output
+      render: shell
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Validations
+      options:
+        - label: I have searched existing issues
+          required: true
+        - label: I can reproduce with the latest main branch
+          required: false

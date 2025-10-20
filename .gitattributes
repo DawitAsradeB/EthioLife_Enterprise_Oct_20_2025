@@ -1,0 +1,15 @@
+* text=auto eol=lf
+*.sh text eol=lf
+*.md text eol=lf
+*.bat text eol=crlf
+# Normalize common binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.gz binary
+*.jar binary
+*.mp4 binary

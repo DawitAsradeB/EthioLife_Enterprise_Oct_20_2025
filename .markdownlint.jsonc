@@ -1,0 +1,10 @@
+{
+  // MD013/line-length - allow longer lines for tables/URLs
+  "MD013": false,
+  // MD033/no-inline-html - allow limited inline HTML
+  "MD033": {
+    "allowed_elements": ["br", "sub", "sup", "kbd", "b", "i", "em", "strong"]
+  },
+  // MD041/first-line-heading - not required for small docs
+  "MD041": false
+}
