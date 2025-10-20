@@ -1,0 +1,17 @@
+* text=auto eol=lf
+
+# Make linguist detect generated/lock files appropriately
+package-lock.json linguist-generated=true
+pnpm-lock.yaml linguist-generated=true
+yarn.lock linguist-generated=true
+poetry.lock linguist-generated=true
+Pipfile.lock linguist-generated=true
+Cargo.lock linguist-generated=false
+
+# Normalize for images/binaries
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
