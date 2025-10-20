@@ -1,74 +1,53 @@
-# EthioLife Enterprise – Full‑stack App
+# EthioLife_Enterprise_Oct_20_2025
 
-This repo contains a full‑stack Next.js application with a simple Todo feature to demonstrate end‑to‑end functionality:
+A clean repository scaffold with code-quality tooling and CI. Add your application source code and tests, and extend the tooling as needed for your stack.
 
-- Frontend: Next.js 15 (App Router), React 19, Tailwind CSS 4
-- API: Next.js Route Handlers (`/api/todos`)
-- Database: SQLite via Prisma ORM
-- TypeScript, ESLint
+### What’s included
+- **Pre-commit**: `black`, `isort`, `ruff`, and standard hygiene hooks
+- **CI**: GitHub Actions running pre-commit on push and PR
+- **Dependabot**: Weekly updates for GitHub Actions
+- **EditorConfig**: Consistent line endings/indentation across editors
+- **Git attributes**: Normalize line endings and mark common lockfiles
+- **Git ignore**: Sensible defaults for popular languages and tools
 
-## Quick start
+### Getting started
+- **Prereqs**: Python 3.x and `pip` available for pre-commit hooks.
+- **Install hooks**:
+  ```bash
+  pip install --upgrade pre-commit
+  pre-commit install
+  pre-commit run --all-files
+  ```
+- **Local workflow**:
+  - Create a feature branch, commit frequently; hooks will run automatically.
+  - Keep commits focused; prefer small, self-contained changes.
 
-1) Install dependencies
+### Continuous Integration
+- Workflow file: `.github/workflows/ci.yml`
+- Runs on: push to `main` and all pull requests
+- Steps: checkout, set up Python, cache, install `pre-commit`, run hooks on all files
 
-```bash
-npm --prefix web install
+### Project structure (initial)
+```text
+/ (repo root)
+├── .editorconfig
+├── .gitattributes
+├── .github/
+│   ├── dependabot.yml
+│   └── workflows/
+│       └── ci.yml
+├── .gitignore
+├── .pre-commit-config.yaml
+├── LICENSE
+└── README.md
 ```
 
-2) Generate Prisma client and create the SQLite database
+### Recommendations / next steps
+- **Source layout**: Create `src/` (or language-appropriate layout) and `tests/`.
+- **Language-specific tooling**: If using Python, keep `black`, `isort`, `ruff`. For JS/TS, add `eslint`, `prettier` hooks; for Go/Rust/etc., add corresponding linters/formatters.
+- **Templates**: Add PR/Issue templates and, if needed, `CODEOWNERS`.
+- **Security/Docs**: Consider `SECURITY.md` and `CONTRIBUTING.md` once the project scope is defined.
+- **Release process**: Add versioning and release automation when ready.
 
-```bash
-cd web
-npx prisma generate
-npx prisma db push
-```
-
-3) Run the dev server
-
-```bash
-npm run dev --prefix web
-```
-
-Open `http://localhost:3000` and use the Todo UI to create, toggle, and delete items.
-
-## Project layout
-
-```
-web/
-  src/
-    app/
-      api/
-        todos/route.ts        # GET, POST
-        todos/[id]/route.ts   # PATCH, DELETE
-      page.tsx                # Renders Todo UI
-      layout.tsx
-    components/
-      TodoApp.tsx
-    lib/
-      prisma.ts               # Prisma client singleton
-  prisma/
-    schema.prisma             # Todo model
-  .env                        # DATABASE_URL for SQLite
-  package.json
-```
-
-## Environment
-
-The app uses a local SQLite database by default:
-
-```
-DATABASE_URL="file:./dev.db"
-```
-
-Modify `web/.env` to point to a different database if needed.
-
-## Build
-
-```bash
-npm run build --prefix web
-```
-
-## Notes
-
-- API routes are dynamic (server‑rendered on demand).
-- The Prisma client is created as a singleton in `src/lib/prisma.ts` to avoid hot‑reload connection issues.
+### License
+Apache License 2.0. See `LICENSE` for details.
